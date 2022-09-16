@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Session;
 use App\Models\Author;
+use DataTables;
 
 class AuthorController extends Controller
 {
@@ -60,6 +61,22 @@ class AuthorController extends Controller
         $author->delete();
         Session::flash('success_message', ' author Has Been deleted Successfully');
     return redirect()->back();
+    }
+
+    public function dataTable(){
+        $model = Author::all();
+        return DataTables::of($model)
+           ->addColumn('action', function($model){
+               return view('admin.author._actions', [
+                    'model'=> $model,
+                    'url_edit' =>route('editAuthor',$model->id),
+                    'url_delete' =>route('deleteAuthor',$model->id)
+               ]);
+               
+           })
+           ->addIndexColumn()
+           ->rawColumns(['actions'])
+                ->make(true);
     }
 
 }

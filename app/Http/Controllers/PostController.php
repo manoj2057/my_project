@@ -80,7 +80,6 @@ class PostController extends Controller
        $categories = $data['category_id'];
        $post->save();
        $post->categories()->sync($categories);
-
         Session::flash('success_message', 'Post has been updated Successfully');
         return redirect()->route('post.index');
     }
@@ -91,19 +90,4 @@ class PostController extends Controller
     return redirect()->back();
     }
 
-    public function dataTable(){
-        $model = Post::all();
-        return DataTables::of($model)
-           ->addColumn('action', function($model){
-               return view('admin.post._actions', [
-                    'model'=> $model,
-                    'url_edit' =>route('editPost',$model->id),
-                    'url_delete' =>route('deletePost',$model->id)
-               ]);
-               
-           })
-           ->addIndexColumn()
-           ->rawColumns(['actions'])
-                ->make(true);
-    }
 }

@@ -27,7 +27,7 @@
                     <div class="col-sm-12">
                       <div class="card-box table-responsive">
               
-              <table id="datatable" class="table table-striped table-bordered" style="width:100%">
+              <table id="my-datatable" class="table table-striped table-bordered" style="width:100%">
                 <thead>
                   <tr>
                     <th>S.N</th>
@@ -36,26 +36,7 @@
                     <th>Action</th>
                   </tr>
                 </thead>
-
-
                 <tbody>
-                    @foreach($authors as $author)
-
-                    
-                  <tr>
-                  <td>{{$loop->iteration}}</td>
-                    <td>{{$author->author_name}}</td>
-                    <td>{{$author->status}}</td>
-                    <td><a href="{{route('editAuthor',$author->id)}}" data-toggle="tooltip" title="Edit" class="btn btn-sm btn-outline-primary"><i class="fa fa-edit"></i></a>
-                        <a href="{{route('deleteAuthor',$author->id)}}" data-toggle="tooltip" title="Delete" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash-o"></i></a>
-                    </td>
-                    
-
-                  </tr>
-                  @endforeach
-                  
-                  
-                  
                 </tbody>
               </table>
             </div>
@@ -85,6 +66,20 @@
 <script src="{{asset('public/dashboard/vendors/pdfmake/build/pdfmake.min.js')}}"></script>
 <script src="{{asset('public/dashboard/vendors/pdfmake/build/vfs_fonts.js')}}"></script> 
 
-
+<script>
+  $("#my-datatable").DataTable({
+    processing:true,
+    serverSide:true,
+    sorting:true,
+    serachable:true,
+    responsive:true,
+    ajax:"{{route('tableAuthor')}}",
+    columns:[
+      {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+      {data: 'author_name', name: 'author_name'},
+      {data: 'status', name:  'status'}, 
+      {data: 'action', name: 'action', orderable:false},
+    ]
+  });
+</script>
 @endsection
-

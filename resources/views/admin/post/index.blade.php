@@ -27,7 +27,7 @@
                     <div class="col-sm-12">
                       <div class="card-box table-responsive">
               
-              <table id="my-datatable" class="table table-striped table-bordered" style="width:100%">
+              <table id="datatable" class="table table-striped table-bordered" style="width:100%">
                 <thead>
                   <tr>
                     <th>S.N</th>
@@ -35,10 +35,28 @@
                     <th>content</th>
                     <th>Author_id</th>
                     <th>Status</th>
-                    <th>Publish Date</th>
+                    <th>Published Date</th>
                     <th>Action</th>
                   </tr>
                 </thead>
+    <tbody>
+      @foreach($posts as $post)                   
+        <tr>
+          <td>{{$loop->iteration}}</td>
+          <td>{{$post->post_title}}</td>
+          <td>{!! Str::limit($post->content,55) !!}</td>
+          <td>{{$post->author_id}}</td>
+          <td>{{$post->status}}</td>
+          <td>{{$post->publish_date}}</td>
+          <td><a href="{{route('editPost',$post->id)}}" data-toggle="tooltip" title="Edit" class="btn btn-sm btn-outline-primary"><i class="fa fa-edit"></i></a>
+            <a href="{{route('deletePost',$post->id)}}" data-toggle="tooltip" title="Delete" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash-o"></i></a>
+          </td>
+  
+
+       </tr>
+     @endforeach
+
+  </tbody>
                 
                
               </table>
@@ -69,7 +87,7 @@
 <script src="{{asset('public/dashboard/vendors/pdfmake/build/pdfmake.min.js')}}"></script>
 <script src="{{asset('public/dashboard/vendors/pdfmake/build/vfs_fonts.js')}}"></script> 
 
-<script>
+<!-- <script>
   $("#my-datatable").DataTable({
     processing:true,
     serverSide:true,
@@ -87,5 +105,5 @@
       {data: 'action', name: 'action', orderable:false},
     ]
   });
-</script>
+</script> -->
 @endsection
